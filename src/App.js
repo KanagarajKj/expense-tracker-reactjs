@@ -11,11 +11,6 @@ const App = () => {
     deals: [],
   };
 
-  const localStorageTransaction = JSON.parse(localStorage.getItem('deals'));
-
-  let addLocalStorage =
-    localStorage.getItem('deals') !== null ? localStorageTransaction : state.deals;
-
   const reducer = (state, action) => {
     if (action.type === 'ADD_NEW_TRANSACTION') {
       const addTransaction = [...state.deals, action.payload];
@@ -27,16 +22,14 @@ const App = () => {
     }
 
     if(action.type === 'DELETE_PERSON'){
-      const updatedDeals = state.deals.filter((deal) => deal.id !== action.payload)
+      const updatedDeals = state.deals.filter(
+        (deal) => deal.id !== action.payload
+      );
       return {
         ...state,
         deals: updatedDeals,
       };
     }
-  };
-
-  const updateLocalStorage = function () {
-    localStorage.setItem('deals', JSON.stringify(state.deals));
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -54,17 +47,13 @@ const App = () => {
     }
   };
 
-  useEffect(() => {
-    updateLocalStorage();
-  }, [submitHandler]);
-
   return (
     <section className="app_container">
       <div className="title">
         <h2>Expense Tracker</h2>
       </div>
 
-      <div className="InEx">
+      <div>
         <IncomeExpense deals={state.deals} />
       </div>
 
@@ -118,7 +107,7 @@ const App = () => {
             onChange={(e) => setAmount(e.target.value)}
           />
         </div>
-        <button type="submit" className="btn" onClick={updateLocalStorage}>
+        <button type="submit" className="btn">
           Add Transaction
         </button>
       </form>

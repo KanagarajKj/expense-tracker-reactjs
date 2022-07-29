@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from 'react';
+import React, { useState, useReducer } from 'react';
 import './index.css';
 import { v4 as uuidv4 } from 'uuid';
 import {IncomeExpense} from './components/IncomeExpense';

@@ -1,14 +1,28 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 import './index.css';
 import { v4 as uuidv4 } from 'uuid';
 import {IncomeExpense} from './components/IncomeExpense';
+
+
+const getLocalStorageData = () => {
+  let localGroceries = localStorage.getItem('groceries');
+
+  if (localGroceries) {
+    localGroceries = JSON.parse(localStorage.getItem('groceries'));
+    return localGroceries;
+  } else {
+    return [];
+  }
+};
+
+getLocalStorageData();
 
 const App = () => {
   const [grocery, setGrocery] = useState('');
   const [amount, setAmount] = useState('');
 
   const initialState = {
-    deals: [],
+    deals: getLocalStorageData(),
   };
 
   const reducer = (state, action) => {
@@ -46,6 +60,10 @@ const App = () => {
       alert('Enter the Details')
     }
   };
+
+  useEffect(() => {
+    localStorage.setItem('deals', JSON.stringify(state.deals));
+  }, [state.deals]);
 
   return (
     <section className="app_container">
